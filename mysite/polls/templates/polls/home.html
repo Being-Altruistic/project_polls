@@ -1,0 +1,67 @@
+{% extends 'polls/base.html' %}
+{% block main_content %}
+{% if latest_questions %}
+
+        <form method="post" action="/createcard">
+            {% csrf_token %}
+        <div class = "buttoncreatec">
+            <label>TEST Deck cards</label>
+            <input type="submit" value="Create Card" style="margin-left: 5em;width: 100px;border-radius: 20px; background:  black;
+                margin-left: 1em;
+                width: 11em;
+                border-radius: 20px;
+                background: black;
+                color: white;
+                height: 4em;
+                margin-top: 5px;
+                font-family: cursive;
+                font-size: large; font-weight: bold;
+                ">
+        </div>
+        </form>
+        <div class="maincontainer">
+        {% for question in latest_questions %}
+                <!--
+                changing this '/polls/{{question.id}}' to
+                the below for more dynamism.
+                -->
+                <!--
+                Sending value to detail in views.py
+                -->
+
+                <div class="thecard">
+                    <div class="thefront">
+                        <div class="fronttextdiv">
+                            <b style="font-size: x-large;font-family: cursive;">{{question.question_text}}</b>
+                        </div>
+
+                    </div>
+
+                    <div class="theback">
+                        {% for choice in question.choice_set.all %}
+
+                        <!--
+                            <p><input type="radio" name="choice" id="choice{{forloop.counter}}" value="{{choice.id}}"/>
+                            <p><label for="choice{{forloop.counter}}"> {{choice.choice_text}}</label></p>
+                            -->
+                            <div class="backtextdiv">
+                                <i style="font-size: x-large;">{{choice.choice_text}}</i>
+                            </div>
+
+                        {% endfor %}
+                    <div class="buttonblock">
+                        <form method="post" action="/edit">
+                         <input type="Button" value="EDIT" name="edit" style="background-color: #4CAF50; width:100px; height:40px; border-radius: 20px; color: white;"></input>   <input type="Button" value="DELETE" name="delete" style="background-color: #4CAF50; width:100px; height:40px; border-radius: 20px; color: white;"></input>
+                        </form>
+                    </div>
+
+                    </div>
+
+                </div>
+
+        {% endfor %}
+       </div>
+{% else %}
+    <p> You have no questions to View! Why don't you add some? </p>
+{% endif %}
+{% endblock %}
